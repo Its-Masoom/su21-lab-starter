@@ -77,7 +77,11 @@ main:
 # Think: why might having a1 be useful?
 f:
     # YOUR CODE GOES HERE!
-
+    addi t0, a0, 3      # Shifting the input to start from zero so -3 to 3 will be 0 to 6
+    addi t1, x0, 4      # Loading 4 because a word is 4 bytes so next result in output is 4 bytes away
+    mul t1, t0, t1      # Calculating offset from base address of output by multiplying 4 with input
+    add a1, a1, t1      # Adding offset to base address
+    lw a0, 0(a1)        # Retrieving value from that address
     jr ra               # Always remember to jr ra after your function!
 
 print_int:

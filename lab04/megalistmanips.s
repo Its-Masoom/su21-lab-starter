@@ -66,27 +66,40 @@ map:
     # are modified by the callees, even when we know the content inside the functions 
     # we call. this is to enforce the abstraction barrier of calling convention.
 mapLoop:
-    add t1, s0, x0      # load the address of the array of current node into t1
+    # add t1, s0, x0    # load the address of the array of current node into t1 (Error no 1)
+    lw t1, 0(s0)        # load the address of the array of current node into t1 (Added by me)
+
     lw t2, 4(s0)        # load the size of the node's array into t2
 
-    add t1, t1, t0      # offset the array address by the count
+    li t3, 4            # Added by me
+    mul t4, t0, t3      # Added by me
+    # add t1, t1, t0    # offset the array address by the count (Error no 2)
+    add t1, t1, t4      # offset the array address by the count (Added by me)
     lw a0, 0(t1)        # load the value at that address into a0
 
-    jalr s1             # call the function on that value.
+    addi sp, sp, -4     # Added by me
+    sw t1, 0(sp)        # Added by me
+    jalr s1             # call function on that value. (Error no 3)->t1 should store to stack before jumping
+    lw t1, 0(sp)        # Added by me
+    addi sp, sp, 4      # Added by me
 
     sw a0, 0(t1)        # store the returned value back into the array
     addi t0, t0, 1      # increment the count
     bne t0, t2, mapLoop # repeat if we haven't reached the array size yet
 
-    la a0, 8(s0)        # load the address of the next node into a0
-    lw a1, 0(s1)        # put the address of the function back into a1 to prepare for the recursion
+    # la a0, 8(s0)      # load the address of the next node into a0 (Error no 4)
+    lw a0, 8(s0)        # load the address of the next node into a0 (Added by me)
 
-    jal  map            # recurse
+    # lw a1, 0(s1)      # put address of function back into a1 to prepare for the recursion (Error no 5)
+    add a1, x0, s1      # put address of function back into a1 to prepare for the recursion (Added by me)
+
+    jal  map            # recurse 
 done:
     lw s0, 8(sp)
     lw s1, 4(sp)
     lw ra, 0(sp)
     addi sp, sp, 12
+    jr ra               # Added by me (Error no 6)
 
 print_newline:
     li a1, '\n'
