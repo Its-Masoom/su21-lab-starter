@@ -1,0 +1,25 @@
+# vsim -c -do "run -all" TopLevel_tb "+mem_init=addi.hex" 
+# Start time: 14:28:26 on Mar 10,2023
+# Loading sv_std.std
+# Loading work.TopLevel_tb
+# Loading work.TopLevel
+# Loading work.Mux_PC
+# Loading work.program_counter
+# Loading work.Instruction_Memory
+# Loading work.Instruction_Fetch
+# Loading work.PCPlus4
+# Loading work.Register_file
+# Loading work.ALU
+# Loading work.controller
+# Loading work.LoadStore_Unit
+# Loading work.Data_Memory
+# Loading work.immediate_gen
+# Loading work.mux_selA
+# Loading work.mux_selB
+# Loading work.MuxResult
+# Loading work.BranchCond
+# run -all
+# ** Note: $finish    : TopLevel_tb.sv(18)
+#    Time: 52 ps  Iteration: 0  Instance: /TopLevel_tb
+# End time: 14:28:26 on Mar 10,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
